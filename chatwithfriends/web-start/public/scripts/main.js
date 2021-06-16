@@ -2,20 +2,19 @@
 'use strict';
 
 function signIn() {
-  // Sign in Firebase using popup auth and Google as the identity provider.
+ 
   var provider = new firebase.auth.GoogleAuthProvider();
   firebase.auth().signInWithPopup(provider);
 }
 
-// Signs-out of Friendly Chat.
 function signOut() {
-  // Sign out of Firebase.
+ 
   firebase.auth().signOut();
 }
 
-// Initiate firebase auth.
+
 function initFirebaseAuth() {
-  // Listen to auth state changes.
+
   firebase.auth().onAuthStateChanged(authStateObserver);
 }
 
@@ -24,19 +23,16 @@ function getProfilePicUrl() {
   return firebase.auth().currentUser.photoURL || '/images/profile_placeholder.png';
 }
 
-// Returns the signed-in user's display name.
 function getUserName() {
   return firebase.auth().currentUser.displayName;
 }
 
-// Returns true if a user is signed-in.
 function isUserSignedIn() {
   return !!firebase.auth().currentUser;
 }
 
-// Saves a new message on the Cloud Firestore.
 function saveMessage(messageText) {
-  // Add a new message entry to the Firebase database.
+
   return firebase.firestore().collection('messages').add({
     name: getUserName(),
     text: messageText,
@@ -47,7 +43,7 @@ function saveMessage(messageText) {
   });
 }
 
-// Loads chat messages history and listens for upcoming ones.
+]
 function loadMessages() {
   // Create the query to load the last 12 messages and listen for new ones.
   var query = firebase.firestore().collection('messages').orderBy('timestamp', 'desc').limit(20);
@@ -64,16 +60,15 @@ function loadMessages() {
       }
     });
   });
-}
+}]
 
-// Saves a new message containing an image in Firebase.
-// This first saves the image in Firebase storage.
 function saveImageMessage(file) {
   // 1 - We add a message with a loading icon that will get updated with the shared image.
   firebase.firestore().collection('messages').add({
     name: getUserName(),
     imageUrl: LOADING_IMAGE_URL,
     profilePicUrl: getProfilePicUrl(),
+   
     timestamp: firebase.firestore.FieldValue.serverTimestamp()
   }).then(function(messageRef) {
     // 2 - Upload the image to Cloud Storage.
